@@ -104,7 +104,7 @@ def catalog_age_stats(movies, current_year=2026):
 def duration_in_hours(minutes):
     hours = minutes // 60
     mins = minutes % 60
-    return f"{hours}h {mins}m"
+    return f"{hours}ч {mins}м"
 
 
 print(average_rating(movies))
