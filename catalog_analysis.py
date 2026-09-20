@@ -241,27 +241,57 @@ def total_duration_good_movies(movies):
     return sum(m["duration_min"] for m in movies if m["rating"] > 7)
 
 
-print(average_rating(movies))
-print(catalog_age_stats(movies))
-print(duration_in_hours(155))
-print(rating_tier(9.2), rating_tier(7.0), rating_tier(5.0), rating_tier(4.8))
-print(decade_label(2021), decade_label(2020), decade_label(2015), decade_label(2014))
-print_not_comedy(movies)
-find_first_masterpiece(movies)
-find_first_masterpiece(movies[:5])
-print(count_long_movies(movies), count_long_movies(movies, 100))
-print(normalize_title("silent hours"))
-print(make_slug("Silent Hours"))
-print(format_report_line(movies[7]))
-print(titles_sorted_by_rating(movies))
-print(movies[0]["title"])
-print(top_n_by_rating(movies, 3))
-print(count_by_genre(movies))
-print(actor_filmography(movies))
-print(above_average_rating(movies))
-print(all_genres(movies))
-print(common_actors(movies[0], movies[3]))
-print(genres_only_in_one(movies[5:6], movies[:5]))
-for movie in iter_high_rated(movies):
-    print(format_report_line(movie))
-print(total_duration_good_movies(movies))
+def genre_sort_key(item):
+    return (-item[1], item[0])
+
+
+def build_report(movies):
+    print("Отчет по каталогу")
+    print(f"Средний рейтинг: {average_rating(movies)}")
+    stats = catalog_age_stats(movies)
+    print(f"Средний возраст фильмов: {stats[2]} лет")
+    print()
+    print("Топ-3 фильма:")
+    for movie in sorted(movies, key=get_rating, reverse=True)[:3]:
+        print("  " + format_report_line(movie))
+    print()
+    print("Фильмов по жанрам:")
+    counts = count_by_genre(movies)
+    for genre, count in sorted(counts.items(), key=genre_sort_key):
+        print(f"  {genre} — {count}")
+    print()
+    print("Все жанры каталога: " + ", ".join(sorted(all_genres(movies))))
+
+
+def show_examples(movies):
+    print(average_rating(movies))
+    print(catalog_age_stats(movies))
+    print(duration_in_hours(155))
+    print(rating_tier(9.2), rating_tier(7.0), rating_tier(5.0), rating_tier(4.8))
+    print(
+        decade_label(2021), decade_label(2020), decade_label(2015), decade_label(2014)
+    )
+    print_not_comedy(movies)
+    find_first_masterpiece(movies)
+    find_first_masterpiece(movies[:5])
+    print(count_long_movies(movies), count_long_movies(movies, 100))
+    print(normalize_title("silent hours"))
+    print(make_slug("Silent Hours"))
+    print(format_report_line(movies[7]))
+    print(titles_sorted_by_rating(movies))
+    print(top_n_by_rating(movies, 3))
+    print(count_by_genre(movies))
+    print(actor_filmography(movies))
+    print(above_average_rating(movies))
+    print(all_genres(movies))
+    print(common_actors(movies[0], movies[3]))
+    print(genres_only_in_one(movies[5:6], movies[:5]))
+    for movie in iter_high_rated(movies):
+        print(format_report_line(movie))
+    print(total_duration_good_movies(movies))
+
+
+if __name__ == "__main__":
+    build_report(movies)
+    print()
+    show_examples(movies)
