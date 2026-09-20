@@ -173,6 +173,26 @@ def format_report_line(movie):
     return f'"{title}" ({year}) — {rating}/10, {duration}, жанры: {genres}'
 
 
+def get_rating(movie):
+    return movie["rating"]
+
+
+def titles_sorted_by_rating(movies):
+    sorted_movies = sorted(movies, key=get_rating, reverse=True)
+    titles = []
+    for movie in sorted_movies:
+        titles.append(movie["title"])
+    return titles
+
+
+def top_n_by_rating(movies, n=3):
+    sorted_movies = sorted(movies, key=get_rating, reverse=True)
+    top = []
+    for movie in sorted_movies[:n]:
+        top.append((movie["title"], movie["rating"]))
+    return top
+
+
 print(average_rating(movies))
 print(catalog_age_stats(movies))
 print(duration_in_hours(155))
@@ -185,3 +205,6 @@ print(count_long_movies(movies), count_long_movies(movies, 100))
 print(normalize_title("silent hours"))
 print(make_slug("Silent Hours"))
 print(format_report_line(movies[7]))
+print(titles_sorted_by_rating(movies))
+print(movies[0]["title"])
+print(top_n_by_rating(movies, 3))
