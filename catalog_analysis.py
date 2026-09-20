@@ -216,9 +216,6 @@ def above_average_rating(movies):
     return {m["title"]: m["rating"] for m in movies if m["rating"] > avg}
 
 
-# ---------- Этап 7. Множества ----------
-
-
 def all_genres(movies):
     genres = set()
     for movie in movies:
@@ -232,6 +229,16 @@ def common_actors(movie1, movie2):
 
 def genres_only_in_one(movies_a, movies_b):
     return all_genres(movies_a) - all_genres(movies_b)
+
+
+def iter_high_rated(movies, min_rating=8.0):
+    for movie in movies:
+        if movie["rating"] >= min_rating:
+            yield movie
+
+
+def total_duration_good_movies(movies):
+    return sum(m["duration_min"] for m in movies if m["rating"] > 7)
 
 
 print(average_rating(movies))
@@ -255,3 +262,6 @@ print(above_average_rating(movies))
 print(all_genres(movies))
 print(common_actors(movies[0], movies[3]))
 print(genres_only_in_one(movies[5:6], movies[:5]))
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+print(total_duration_good_movies(movies))
